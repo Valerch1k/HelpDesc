@@ -1,0 +1,70 @@
+﻿@model Activ
+@using HelpDesc.Models
+@{
+    ViewBag.Title = "Справочник Активы";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- INPUTS -->
+            <div class="panel">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.ValidationSummary(true)
+                        @Html.LabelFor(model => model.CabNumber)
+                        <input type="text" class="form-control" name="CabNumber">
+                        @Html.ValidationMessageFor(model => model.CabNumber)
+                        <br />
+                        @Html.LabelFor(model => model.DepartmentId)
+                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId)
+                        <br />
+                        <button type="submit" class="btn btn-primary">Добавить номер кабинета</button>
+                    }
+                </div>
+            </div>
+            <!-- END INPUTS -->
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- TABLE HOVER -->
+            <div class="panel">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Название отдела</th>
+                                <th>Номер кабинета</th>
+                                <th>Операции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (Activ item in ViewBag.Activs)
+                           {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Department.Name</td>
+                                    <td>@item.CabNumber</td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("DeleteActiv",new { id = item.Id })"><i class="fa fa-trash-o"></i> Удалить</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END TABLE HOVER -->
+        </div>
+    </div>
+</div>

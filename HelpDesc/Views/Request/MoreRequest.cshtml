@@ -1,0 +1,81 @@
+﻿@model HelpDesc.Models.Request
+@{
+    ViewBag.Title = "Описание заявки";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Подробные сведения: Заявка №  @Html.DisplayFor(m => m.Id)</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Категория</th>
+                                <th>Кабинет</th>
+                                <th>Номер тел.</th>
+                                <th>Email</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(m => m.Name)</td>
+                                <td>@Html.DisplayFor(m => m.Category.Name)</td>
+                                <td>@Html.DisplayFor(m => m.Activ.CabNumber)</td>
+                                <td>@Html.DisplayFor(m => m.User.PhoneNumber)</td>
+                                <td>@Html.DisplayFor(m => m.User.Email)</td>  
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Открыта</th>
+                                <th>Распределена</th>
+                                <th>В процессе</th>
+                                <th>На проверке</th>
+                                <th>Закрыта</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(m => m.Lifecycle.Opened)</td>
+                                <td>@Html.DisplayFor(m => m.Lifecycle.Distributed)</td>
+                                <td>@Html.DisplayFor(m => m.Lifecycle.Proccesing)</td>
+                                <td>@Html.DisplayFor(m => m.Lifecycle.Checking)</td>
+                                <td>@Html.DisplayFor(m => m.Lifecycle.Closed)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   @if (Model.ExecutorId != null)
+                   {
+                        <p><b>Сведения об исполнителе : </b></p>
+                        <p>ФИО:&nbsp; @Html.DisplayFor(m => m.Executor.Name)</p>
+                        <p>Должность:&nbsp; @Html.DisplayFor(m => m.Executor.Position) </p>
+                    }
+                    else{ 
+                        <p><b>Исполнитель еще не назначен  </b></p>
+                    }
+                    
+                </div>
+            </div>
+         </div>
+            <div class="col-md-12">
+                <!-- INPUTS -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>Подробное описание</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>@Html.Raw(Model.Comment) </p> 
+                    </div>
+                </div>
+                <!-- END INPUTS -->
+            </div>
+        </div>
+</div>
+

@@ -1,0 +1,94 @@
+﻿@model HelpDesc.Models.User
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/baseall/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/main/css")
+    <link href="~/Content/demo.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../Content/icon/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../Content/icon/favicon.png">
+    <title>Вход в систему</title>
+</head>
+<body>
+    <!-- WRAPPER -->
+    <div id="wrapper">
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle">
+                <div class="auth-box ">
+                    <div class="left">
+                        <div class="content">
+                            @*<div class="logo text-center"><img src="@Url.Content("../Content/icon/logo-dark.png")" alt="Klorofil Logo"></div>*@
+                           @using (Html.BeginForm())
+                           {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Имя" } })                         
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Фамилия" } })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Логин" } })
+                                    @Html.ValidationMessageFor(model => model.Login)
+                                </div>
+                                <div class="form-group">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @id = "signup-password", @placeholder = "Пароль" })  
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Телефон" } })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Email" } })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control", @id = "signup-email", @placeholder = "Должность" } })
+                                    @Html.ValidationMessageFor(model => model.Position)
+                                </div>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DepartmentId)
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm btn-block">Зарегистрироватся</button>
+                            }
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="overlay"></div>
+                        <div class="content text">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END WRAPPER -->
+    <!-- Javascript -->
+    @Scripts.Render("~/bundles/ckEditor")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/klorofil")
+
+</body>
+</html>

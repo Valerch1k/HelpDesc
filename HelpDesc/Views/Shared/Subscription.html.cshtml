@@ -1,0 +1,25 @@
+﻿@model HelpDesc.Models.EmailTemplate
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+    <div>
+        <h1>Имя пользователя :@Model.UserName</h1>
+        <p>Фамилия пользователя :@Model.UserLastname</p>
+        <p>Телефон :@Model.UserPhoneNumber</p>
+        <p>Должность : @Model.UserPosition</p>
+        <p>Название заявки : @Model.RequestName</p>
+        <p>Кабинет : @Model.RequestActiv</p>
+        <p>Коментарий : @Model.RequestComment</p>
+        <p>Описание : @Model.RequestDescription</p>
+        <p>Приоретет : @Model.RequestPriority</p>
+        <p>Категория : @Model.RequestCategory</p>
+    </div>
+</body>
+</html>

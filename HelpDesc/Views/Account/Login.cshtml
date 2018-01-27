@@ -1,0 +1,82 @@
+﻿@model HelpDesc.Models.LogViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/baseall/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/main/css")
+    <link href="~/Content/demo.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../Content/icon/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../Content/icon/favicon.png">
+    <title>Вход в систему</title>
+</head>
+<body>
+    <!-- WRAPPER -->
+    <div id="wrapper">
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle">
+                <div class="auth-box ">
+                    <div class="left">
+                        <div class="content">
+                            <div class="logo text-center"><img src="@Url.Content("../Content/icon/logo-dark.png")" alt="HelpDesk Logo"></div>
+                             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-auth-small", role = "form" }))
+                             {
+                                @Html.AntiForgeryToken()
+                               @Html.ValidationSummary(true)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserName, new { @class = "control-label sr-only" })
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" , @id = "signup-email" , @placeholder = "Логин" }) 
+                                    @Html.ValidationMessageFor(model => model.UserName)
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Password, new { @class = "control-label sr-only" })   
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "signup-password", @placeholder = "Пароль" })  
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </div>
+                                <div class="form-group clearfix">
+                                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "fancy-checkbox element-left" })
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">ВОЙТИ</button>
+                                <div class="bottom">
+                                    <span><i class="fa fa-lock"></i> <a href="#"> Забыли пароль?</a></span>
+                                </div>
+                                <div class="bottom">
+                                    <span><i class="fa fa-user-plus"></i> <a href="@Url.Action("Registration", "Account")"> Регистрация</a></span>
+                                </div>
+                             }
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="overlay"></div>
+                        <div class="content text">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END WRAPPER -->
+
+    <!-- Javascript -->
+    @Scripts.Render("~/bundles/ckEditor")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/klorofil")
+   
+</body>
+</html>

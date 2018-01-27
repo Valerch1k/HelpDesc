@@ -1,0 +1,62 @@
+﻿
+@model HelpDesc.Models.User
+
+@{
+    ViewBag.Title = "Редактирования пользователя";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- INPUTS -->
+            <div class="panel">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.ValidationSummary(true)
+
+                        @Html.LabelFor(model => model.Name)
+                        <input type="text" class="form-control" name="Name" value="@Model.Name">
+                        @Html.ValidationMessageFor(model => model.Name)
+                        <br />
+                        @Html.LabelFor(model => model.LastName)
+                        <input type="text" class="form-control" name="LastName" value="@Model.LastName">
+                        @Html.ValidationMessageFor(model => model.LastName)
+                        <br />
+                        @Html.LabelFor(model => model.Login)
+                        <input type="text" class="form-control" name="Login" value="@Model.Login">
+                        @Html.ValidationMessageFor(model => model.Login)
+                        <br />
+                        @Html.LabelFor(model => model.Password)
+                        <input type="password" class="form-control" name="Password" value="@Model.Password">
+                        @Html.ValidationMessageFor(model => model.Password)
+                        <br />
+                        @Html.LabelFor(model => model.Email)
+                        <input type="text" class="form-control" name="Email" value="@Model.Email">
+                        @Html.ValidationMessageFor(model => model.Email)
+                        <br />
+                        @Html.LabelFor(model => model.PhoneNumber)
+                        <input type="text" class="form-control" name="PhoneNumber" value="@Model.PhoneNumber">
+                        @Html.ValidationMessageFor(model => model.PhoneNumber)
+                        <br />
+                        @Html.LabelFor(model => model.Position)
+                        <input type="text" class="form-control" name="Position" value="@Model.Position">
+                        @Html.ValidationMessageFor(model => model.Position)
+                        <br />
+                        @Html.LabelFor(model => model.DepartmentId)
+                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId)
+                        <br />
+                        @Html.LabelFor(model => model.RoleId)
+                        @Html.DropDownListFor(model => model.RoleId, ViewBag.Roles as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RoleId)
+                        <br />
+                        <button type="submit" class="btn btn-primary">Изменить пользователя</button>
+                    }
+                </div>
+            </div>
+            <!-- END INPUTS -->
+        </div>
+    </div>
+</div>

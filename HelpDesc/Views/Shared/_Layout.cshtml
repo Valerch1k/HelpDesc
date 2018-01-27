@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Система заявок HelpDesk";
+    System.Security.Principal.IIdentity me = HttpContext.Current.User.Identity;
+}
+
+<!doctype html>
+<html>
+
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- CSS -->
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/themes/baseall/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/main/css")
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../Content/icon/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../Content/icon/favicon.png">
+</head>
+
+<body>
+    <!-- WRAPPER -->
+    <div id="wrapper">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="brand">
+                @if(ViewContext.HttpContext.User.IsInRole("Администратор"))
+                {
+                     <a href="@Url.Action("RequestList", "Request")"><img src="@Url.Content("~/Content/icon/logo-dark.png")" alt="Klorofil Logo" class="img-responsive logo"></a>
+                }
+                else
+                {
+                     <a href="@Url.Action("Index", "Request")"><img src="@Url.Content("~/Content/icon/logo-dark.png")" alt="Klorofil Logo" class="img-responsive logo"></a>
+                }
+               
+            </div>
+            <div class="sidebar-scroll">
+                <nav>
+                    <ul class="nav">
+@if (ViewContext.HttpContext.User.IsInRole("Администратор"))
+{
+                        <li>
+                            <a href="#subPages2" data-toggle="collapse" class="collapsed"><i class="lnr lnr-alarm"></i> <span>Заявки</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages2" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="@Url.Action("RequestList", "Request")" class="RequestListUpdate"><i class="fa fa-expand"></i> <span>Все заявки</span></a></li>
+                                    <li><a href="@Url.Action("ChangeStatus", "Request")" class=""><i class="lnr lnr-eye"></i> <span>Назначенные</span></a></li>
+                                    <li><a href="@Url.Action("Distribute", "Request")" class=""><i class="lnr lnr-flag"></i> <span>Распределить</span></a></li>
+                                    <li><a href="@Url.Action("Index", "Request")" class=""><i class="fa fa-file-text-o"></i> <span>Мои заявки</span></a></li>
+                                    <li><a href="@Url.Action("Create", "Request")" class=""><i class="lnr lnr-pencil"></i> <span>Новая заявка</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#subPages1" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Справочники</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages1" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="@Url.Action("Departments", "Service")" class=""><i class="lnr lnr-enter"></i> <span>Отделы</span></a></li>
+                                    <li><a href="@Url.Action("Activ", "Service")" class=""><i class="fa fa-sort-numeric-asc"></i> <span>Активы</span></a></li>
+                                    <li><a href="@Url.Action("Categories", "Service")" class=""><i class="fa fa-tags"></i> <span>Категории</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#subPages3" data-toggle="collapse" class="collapsed"><i class="lnr lnr-users"></i> <span>Пользователи</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages3" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="@Url.Action("Index", "User")" class=""><i class="lnr lnr-users"></i> <span>Пользователи</span></a></li>
+                                    <li><a href="@Url.Action("Create", "User")" class=""><i class="fa fa-user-plus"></i> <span>Добавление</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+}
+else if (ViewContext.HttpContext.User.IsInRole("Модератор"))
+{
+                        <li>
+                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-alarm"></i> <span>Заявки</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="@Url.Action("Index", "Request")" class=""><i class="fa fa-file-text-o"></i> <span>Мои заявки</span></a></li>
+                                    <li><a href="@Url.Action("Distribute", "Request")" class=""><i class="lnr lnr-flag"></i> <span>Распределить</span></a></li>
+                                    <li><a href="@Url.Action("Create", "Request")" class=""><i class="lnr lnr-pencil"></i> <span>Новая заявка</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="@Url.Action("Index", "User")" class="active"><i class="lnr lnr-users"></i> <span>Пользователи</span></a></li>
+}
+else if (ViewContext.HttpContext.User.IsInRole("Исполнитель"))
+{
+                        <li>
+                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Заявки</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="@Url.Action("Index", "Request")" class=""><i class="fa fa-file-text-o"></i> <span>Мои заявки</span></a></li>
+                                    <li><a href="@Url.Action("ChangeStatus", "Request")" class=""><i class="lnr lnr-eye"></i> <span>Назначенные</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="@Url.Action("Index", "User")" class=""><i class="lnr lnr-users"></i> <span>Пользователи</span></a></li>
+}
+else if (ViewContext.HttpContext.User.IsInRole("Пользователь"))
+{
+    <li>
+        <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-alarm"></i> <span>Заявки</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+        <div id="subPages" class="collapse ">
+            <ul class="nav">
+                <li><a href="@Url.Action("Create", "Request")" class=""><i class="lnr lnr-pencil"></i> <span>Новая заявка</span></a></li>
+                <li><a href="@Url.Action("Index", "Request")" class=""><i class="fa fa-file-text-o"></i> <span>Мои заявки</span></a></li>
+            </ul>
+        </div>
+    </li>
+}
+                    </ul>
+                </nav>
+            </div>
+            <a class="footer" href="http://twitter.com/share?url=https://goo.gl/1dt1MR&amp;text=So cool! Free Bootstrap dashboard template by thedevelovers. Download at&amp;hashtags=free,bootstrap,dashboard" title="Twitter share" target="_blank"><i class="fa fa-twitter"></i> <span>SHARE THIS FREEBIE</span></a>
+        </div>
+        <!-- END SIDEBAR -->
+        <!-- MAIN -->
+        <div class="main">
+            <!-- NAVBAR -->
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-btn">
+                        <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+                    </div>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu">
+                            <span class="sr-only">Toggle Navigation</span>
+                            <i class="fa fa-bars icon-nav"></i>
+                        </button>
+                    </div>
+                    <div id="navbar-menu" class="navbar-collapse collapse">
+                        <form class="navbar-form navbar-left hidden-xs">
+                            <div class="input-group">
+                                <input type="text" value="" class="form-control" placeholder="Поиск заявок...">
+                                <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>@me.Name</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                                <ul class="dropdown-menu">      
+                                    <li><a href="@Url.Action("LogOff", "Account")"><i class="lnr lnr-exit"></i> <span>Выйти</span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- END NAVBAR -->
+            <!-- MAIN CONTENT -->
+            <div class="main-content">      
+                @RenderBody()
+            </div>     
+            <!-- END MAIN CONTENT -->
+            <footer>
+                <div class="container-fluid">
+                    <p class="copyright">&copy; @DateTime.Now.Year - @ViewBag.Title</p>
+                </div>
+            </footer>
+        </div>
+        <!-- END MAIN -->
+    </div>
+    <!-- END WRAPPER -->
+    <!-- Javascript -->
+    @Scripts.Render("~/bundles/ckEditor")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/klorofil")
+</body>
+
+</html>

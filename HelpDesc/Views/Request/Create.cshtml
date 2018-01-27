@@ -1,0 +1,54 @@
+﻿@model HelpDesc.Models.Request
+@using System.Web.Optimization;
+@{
+    ViewBag.Title = "Создать заявку";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- INPUTS -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Новая заявка</h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Create", "Request", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.ValidationSummary(true)
+                        @Html.LabelFor(model => model.Name)
+                        <input type="text" class="form-control" name="Name">
+                        @Html.ValidationMessageFor(model => model.Name)
+                        <br>
+                        @Html.LabelFor(model => model.Description)
+                        <input type="text" class="form-control" name="Description">
+                        @Html.ValidationMessageFor(model => model.Description)
+                        <br>
+                        @Html.LabelFor(model => model.Priority)
+                        @Html.DropDownListFor(model => model.Priority, new[] { new SelectListItem() { Text = "Низкий", Value = "1" },
+            new SelectListItem() { Text = "Средний", Value = "2" }, new SelectListItem() { Text = "Высокий", Value = "3" },
+            new SelectListItem() { Text = "Критичный", Value = "4" }}, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Priority)
+                        <br>
+                        @Html.LabelFor(model => model.ActivId)
+                        @Html.DropDownListFor(model => model.ActivId, ViewBag.Cabs as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ActivId)
+                        <br>
+                        @Html.LabelFor(model => model.CategoryId)
+                        @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoryId)
+                        <br />
+                        @Html.LabelFor(model => model.File)
+                        <input type="file" class="form-control" id="error" name="error" />
+                        <br />
+                        @Html.LabelFor(model => model.Comment)
+                        <textarea class="ckeditor" name="Comment" rows="4"></textarea>
+                        @Html.ValidationMessageFor(model => model.Comment)
+                        <br />
+                        <button type="submit" class="btn btn-primary">Создать заявку</button>
+                    }
+                </div>
+            </div>
+            <!-- END INPUTS -->
+            </div>
+        </div>
+    </div>

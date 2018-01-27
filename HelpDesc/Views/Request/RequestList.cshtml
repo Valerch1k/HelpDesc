@@ -1,0 +1,229 @@
+﻿@model IEnumerable<Request>
+@using HelpDesc.Models
+
+@{
+    ViewBag.Title = "Всего заявок";
+}
+
+<div class="container-fluid">
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-body">
+            <div class="row">
+                @if (ViewContext.HttpContext.User.IsInRole("Администратор") || ViewContext.HttpContext.User.IsInRole("Исполнитель") || ViewContext.HttpContext.User.IsInRole("Модератор"))
+                {
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-minus-square"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.RequestsCountOpen</span>
+                                <span class="title">Не назначены</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-check-square"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.MyRequestsCount</span>
+                                <span class="title">Назначенные</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-exclamation-circle"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.RequestsCountCritical</span>
+                                <span class="title">Важные !!!</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-user-plus"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.RequestsCountAllDay</span>
+                                <span class="title">Новые за день</span>
+                            </p>
+                        </div>
+                    </div>
+                }
+                else if (ViewContext.HttpContext.User.IsInRole("Пользователь"))
+                {
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-plus-square"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.DistributedRequestsCount</span>
+                                <span class="title">Назначенные</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-spinner"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.ProccesingRequestsCount</span>
+                                <span class="title">В процессе</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-refresh"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.CheckingRequestsCount</span>
+                                <span class="title">На проверке</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric">
+                            <span class="icon"><i class="fa fa-check-square-o"></i></span>
+                            <p>
+                                <span class="number">@ViewBag.ClosedRequestsCount</span>
+                                <span class="title">Выполнены</span>
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- TABLE HOVER -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-left">@ViewBag.Title : @(Model.Count<Request>())</h3> 
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Статус</th>
+                                <th>Преоритет</th>
+                                <th>Файл</th>
+                                <th>Дата откр.</th>
+                                <th>Заголовок</th>
+                                <th>Описание</th>
+                                <th>Исполнитель</th>
+                                <th>Цикл</th>
+                                <th>Операции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>
+                                        @if (item.Status == (int)RequestStatus.Open)
+                                        {
+                                            <button type="button" class="btn btn-default" disabled="disabled"><i class="fa fa-plus-square"></i> Открыта </button>
+                                        }
+                                        else if (item.Status == (int)RequestStatus.Distributed)
+                                        {
+                                            <button type="button" class="btn btn-info" disabled="disabled"><i class="fa fa-user"></i> Распределена</button>
+                                        }
+                                        else if (item.Status == (int)RequestStatus.Proccesing)
+                                        {
+                                            <button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-refresh fa-spin"></i> В процессе</button>
+                                        }
+                                        else if (item.Status == (int)RequestStatus.Checking)
+                                        {
+                                            <button type="button" class="btn btn-primary" disabled="disabled"><i class="fa fa-spinner fa-spin"></i> На проверке</button>
+                                        }
+                                        else if (item.Status == (int)RequestStatus.Closed)
+                                        {
+                                            <button type="button" class="btn btn-success" disabled="disabled"><i class="fa fa-check-circle"></i> Закрыта</button>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Priority == (int)RequestPriority.Low)
+                                        {
+                                            <span class="label label-success">Низкий</span>
+                                        }
+                                        else if (item.Priority == (int)RequestPriority.Medium)
+                                        {
+                                            <span class="label label-info">Средний</span>
+                                        }
+                                        else if (item.Priority == (int)RequestPriority.High)
+                                        {
+                                            <span class="label label-warning">Высокий</span>
+                                        }
+                                        else if (item.Priority == (int)RequestPriority.Critical)
+                                        {
+                                            <span class="label label-danger">Критический</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.File != null)
+                                        {
+                                            <a href="/Request/Download/@item.Id"><img src="../../Content/icon/AttachFile.png" alt='@item.File' class="tdImage" height="35" /></a>
+                                        }
+                                        else
+                                        {
+                                            <img src="../../Content/icon/CancelFile.png" alt="без файла изображения" class="tdImage" height="35" />
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Lifecycle.Opened)
+
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("MoreRequest", "Request",new { id = item.Id })">@Html.DisplayFor(modelItem => item.Name)</a>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <a class="openDialog" data-dialog-id="infoDialog" data-dialog-title="Описание заявки"
+                                               href="@Url.Action("Details", "Request",new { id = item.Id })">
+                                                <img src="../../Content/icon/информация.png" class="tdImage" title="Описание заявки" height="35" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            @if (item.ExecutorId != null)
+                                            {
+                                                <a class="openDialog" data-dialog-id="executorDialog" data-dialog-title="Исполнитель заявки"
+                                                   href="@Url.Action("Executor", "Request", new { id = item.ExecutorId })">
+                                                    <img src="../../Content/icon/CheckedUser.png" class="tdImage" title="Исполнитель заявки" height="35" />
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a data-dialog-title="Исполнитель заявки">
+                                                    <img src="../../Content/icon/User.png" class="tdImage" title="Исполнитель заявки" height="35" />
+                                                </a>
+                                            }
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <a class="openDialog" data-dialog-id="lifecycleDialog" data-dialog-title="Жизненный цикл заявки"
+                                               href="@Url.Action("Lifecycle", "Request",new { id = item.LifecycleId })">
+                                                <img src="../../Content/icon/Repeat.png" class="tdImage" title="Жизненный цикл заявки" height="35" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("Delete",new { id = item.Id })"><i class="fa fa-trash-o"></i> Удалить</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END TABLE HOVER -->
+        </div>
+    </div>
+</div>
